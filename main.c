@@ -81,9 +81,8 @@ void cut_func(void *data)
     }
 }
 
-static void *task_run(void *data)
+static void *task_run(void *data__attribute__ ((__unused__)))
 {
-    (void) data;
     while (1) {
         task_t *_task = tqueue_pop(pool->queue);
         if (_task) {
