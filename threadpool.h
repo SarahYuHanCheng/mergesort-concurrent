@@ -6,6 +6,11 @@
 #include <stdint.h>
 
 /**
+ *@defgroup Tasks
+ *@{
+ */
+
+/**
  * @struct _task threadpool.h "threadpool.h"
  * @brief The data structure for a task which will be put in a task queue
  */
@@ -18,7 +23,12 @@ typedef struct _task {
 
 int task_free(task_t *the_task);
 
-/*======Task Queue======*/
+/** @} */
+
+/**
+ * @defgroup Task Queue
+ * @{
+ */
 /**
  * @struct _tqueue_t threadpool.h "threadpool.h"
  * @brief The data structure for a task queue of _task\_t_
@@ -37,7 +47,11 @@ uint32_t tqueue_size(tqueue_t *the_queue);
 int tqueue_push(tqueue_t *the_queue, task_t *task);
 int tqueue_free(tqueue_t *the_queue);
 
-/*======Thread pool ======*/
+/** @} */
+/**
+ *defgroup Thread pool
+ * @{
+ */
 
 /**
  * @struct _tpool_t threadpool.h "threadpool.h"
@@ -52,5 +66,5 @@ typedef struct tpool_t {
 
 int tpool_init(tpool_t *the_pool, uint32_t count, void *(*func)(void *));
 int tpool_free(tpool_t *the_pool);
-
+/** @} */
 #endif
