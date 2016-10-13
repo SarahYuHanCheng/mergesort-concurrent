@@ -81,7 +81,7 @@ void cut_func(void *data)
     }
 }
 
-static void *task_run(void *data__attribute__ ((__unused__)))
+static void *task_run(void *data __attribute__ ((__unused__)))
 {
     while (1) {
         task_t *_task = tqueue_pop(pool->queue);
@@ -129,7 +129,7 @@ int main(int argc, char const *argv[])
     pool = (tpool_t *) malloc(sizeof(tpool_t));
     tpool_init(pool, thread_count, task_run);
     struct timeval start, end;
-    uint32_t comsumed_tasks;
+    uint32_t consumed_tasks;
     // Start when the first task launches.
     gettimeofday(&start, NULL);
     /* launch the first task */
