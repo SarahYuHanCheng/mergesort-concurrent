@@ -36,6 +36,7 @@ int tqueue_init(tqueue_t *the_queue)
     pthread_mutex_init(&(the_queue->mutex), NULL);
     pthread_cond_init(&(the_queue->cond), NULL);
     the_queue->size = 0;
+    the_queue->num_of_consumed = 0;
     return 0;
 }
 
@@ -57,6 +58,7 @@ task_t *tqueue_pop(tqueue_t * const the_queue)
             the_queue->tail = NULL;
         }
         the_queue->size--;
+        the queue->num_of_consummed++;
     }
     pthread_mutex_unlock(&(the_queue->mutex));
     return ret;
@@ -101,10 +103,12 @@ int tqueue_push(tqueue_t * const the_queue, task_t *task)
 /**
  * @brief Release the memory of the remaining tasks in the task queue and destory the mutex lock
  * @param the_queue The target task queue
+ * @return The number of task consumed.
  */
 
-int tqueue_free(tqueue_t *the_queue)
+uint32_t tqueue_free(tqueue_t *the_queue)
 {
+    uint32_t num_of_consumed = the_queue->num_of_consumed;
     task_t *cur = the_queue->head;
     while (cur) {
         the_queue->head = the_queue->head->next;
@@ -113,7 +117,7 @@ int tqueue_free(tqueue_t *the_queue)
         cur = the_queue->head;
     }
     pthread_mutex_destroy(&(the_queue->mutex));
-    return 0;
+    return num_of_consumed;
 }
 
 /**
@@ -143,11 +147,12 @@ int tpool_init(tpool_t *the_pool, uint32_t tcount, void *(*func)(void *))
  * @param the_pool The target thread pool
  */
 
-int tpool_free(tpool_t *the_pool)
+uint32_t tpool_free(tpool_t *the_pool)
 {
+    int num_of_consumed;
     for (uint32_t i = 0; i < the_pool->count; ++i)
         pthread_join(the_pool->threads[i], NULL);
     free(the_pool->threads);
-    tqueue_free(the_pool->queue);
-    return 0;
+    num_of_consumed = tqueue_free(the_pool->queue);
+    return num_of_consumed;
 }

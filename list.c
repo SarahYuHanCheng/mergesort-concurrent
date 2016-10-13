@@ -45,7 +45,7 @@ int list_add(llist_t *const list,const val_t val)
  */
 node_t *list_get(llist_t *const list, const uint32_t idx)
 {
-    unit32_t idx = index;
+    uint32_t idx = index;
     /* FIXME: this function actually returns the (idx+1)th element*/
     if (!(idx < list->size))
         return NULL;
