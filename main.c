@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <sys/time.h>
 #include "threadpool.h"
 #include "list.h"
 #include "merge_sort.h"
@@ -128,7 +128,9 @@ int main(int argc, char const *argv[])
     tmp_list = NULL;
     pool = (tpool_t *) malloc(sizeof(tpool_t));
     tpool_init(pool, thread_count, task_run);
-
+    struct timeval start, end;
+    // Start when the first task launches.
+    gettimeofday(&start, NULL);
     /* launch the first task */
     task_t *_task = (task_t *) malloc(sizeof(task_t));
     _task->func = cut_func;
@@ -137,5 +139,9 @@ int main(int argc, char const *argv[])
 
     /* release thread pool */
     tpool_free(pool);
+
+    gettimeofday(&end, NULL);
+    /* Report */
+    printf("#Elapsed_time: %.3lf ms\n", (end.tv_sec - start.tv_sec) * 1000 + (double)(end.tv_usec - start.tv_usec) / 1000.0f);
     return 0;
 }
