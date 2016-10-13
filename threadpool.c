@@ -4,7 +4,7 @@ int task_free(task_t *the_task)
 {
     free(the_task->arg);
     free(the_task);
-    free(the_task);
+    // free(the_task);
     return 0;
 }
 
