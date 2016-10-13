@@ -27,7 +27,7 @@ llist_t *list_new()
  * Note that the create node will be append at the head of the list.
  * @return the final size of the linked list
  */
-int list_add(llist_t *list, val_t val)
+int list_add(llist_t *const list,const val_t val)
 {
     node_t *e = node_new(val, NULL);
     e->next = list->head;
@@ -36,12 +36,16 @@ int list_add(llist_t *list, val_t val)
     return list->size;
 }
 
-/*
- * get the node specify by index
- * if the index is out of range, it will return NULL
+/**
+ * @brief Get the node specified by index
+ * If the index is out of range, it will return NULL
+ * @param list the target liked list
+ * @param index specify the index of the node in the _list_
+ * @return The node at index _index_.
  */
-node_t *list_get(llist_t *list, uint32_t idx)
+node_t *list_get(llist_t *const list, const uint32_t idx)
 {
+    unit32_t idx = index;
     /* FIXME: this function actually returns the (idx+1)th element*/
     if (!(idx < list->size))
         return NULL;
@@ -51,9 +55,9 @@ node_t *list_get(llist_t *list, uint32_t idx)
     return head;
 }
 
-void list_print(llist_t *list)
+void list_print(const llist_t * const list)
 {
-    node_t *cur = list->head;
+    const node_t *cur = list->head;
     /* FIXME: we have to validate the sorted results in advance. */
     printf("\nsorted results:\n");
     while (cur) {
