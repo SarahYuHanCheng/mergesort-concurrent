@@ -18,7 +18,7 @@ typedef struct _task {
     void (*func)(void *);	///<pointer to task function
     void *arg;			///<pointer to the arguments passed to _func_
     struct _task *next;		///<pointer to the next task
-    struct _task *last;		///<poniter to the previous task
+
 } task_t;
 
 int task_free(task_t *the_task);

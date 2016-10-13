@@ -47,9 +47,8 @@ task_t *tqueue_pop(tqueue_t *the_queue)
     ret = the_queue->head;
     if (ret) {
         the_queue->head = ret->next;
-        if (the_queue->head) {
-            the_queue->head->last = NULL;
-        } else {
+        ret->next =NULL;
+        if(!(the_queue->head)) {
             the_queue->tail = NULL;
         }
         the_queue->size--;
@@ -83,7 +82,7 @@ int tqueue_push(tqueue_t *the_queue, task_t *task)
 {
     pthread_mutex_lock(&(the_queue->mutex));
     // FIXME: Push the new task to the end of the queue.
-    task->last = the_queue->tail;
+
     task->next = NULL;
     if (the_queue->tail)
         the_queue->tail->next = task;
