@@ -25,6 +25,7 @@ llist_t *list_new()
  * list_add inserts a new node with the given value val in the list
  * (if the value was absent) or does nothing (if the value is already present).
  * Note that the create node will be append at the head of the list.
+ * @return the final size of the linked list
  */
 int list_add(llist_t *list, val_t val)
 {
@@ -32,7 +33,7 @@ int list_add(llist_t *list, val_t val)
     e->next = list->head;
     list->head = e;
     list->size++;
-    return 0;
+    return list->size;
 }
 
 /*
