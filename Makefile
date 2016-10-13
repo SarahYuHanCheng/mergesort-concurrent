@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -std=gnu99 -Wall -g -pthread
-OBJS = list.o threadpool.o main.o -g
+OBJS = list.o threadpool.o main.o 
 
 .PHONY: all clean test
 
@@ -17,7 +17,7 @@ deps := $(OBJS:%.o=.%.o.d)
 	$(CC) $(CFLAGS) -o $@ -MMD -MF .$@.d -c $<
 
 sort: $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) -rdynamic -g
+	$(CC) $(CFLAGS) -o $@ $(OBJS) -rdynamic 
 
 genData:
 	uniq dictionary/words.txt | sort -R > dictionary/input.txt
