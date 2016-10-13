@@ -43,7 +43,7 @@ int list_add(llist_t *const list,const val_t val)
  * @param index specify the index of the node in the _list_
  * @return The node at index _index_.
  */
-node_t *list_get(llist_t *const list, const uint32_t idx)
+node_t *list_get(llist_t *const list, const uint32_t index)
 {
     uint32_t idx = index;
     /* FIXME: this function actually returns the (idx+1)th element*/

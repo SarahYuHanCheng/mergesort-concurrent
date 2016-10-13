@@ -58,7 +58,7 @@ task_t *tqueue_pop(tqueue_t * const the_queue)
             the_queue->tail = NULL;
         }
         the_queue->size--;
-        the queue->num_of_consummed++;
+        the_queue->num_of_consumed++;
     }
     pthread_mutex_unlock(&(the_queue->mutex));
     return ret;
