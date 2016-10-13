@@ -23,9 +23,11 @@ llist_t *merge_list(llist_t *a, llist_t *b)
     llist_t *_list = list_new();
     node_t *current = NULL;
     while (a->size && b->size) {
+        //Choose the linked list whose data of first node is small.
         llist_t *small = (llist_t *)
                          ((intptr_t) a * (a->head->data <= b->head->data) +
                           (intptr_t) b * (a->head->data > b->head->data));
+        //Extract the first node of the chosen list and put to the new list
         if (current) {
             current->next = small->head;
             current = current->next;
@@ -38,7 +40,7 @@ llist_t *merge_list(llist_t *a, llist_t *b)
         ++_list->size;
         current->next = NULL;
     }
-
+    //Append the remaining nodes
     llist_t *remaining = (llist_t *) ((intptr_t) a * (a->size > 0) +
                                       (intptr_t) b * (b->size > 0));
     if (current) current->next = remaining->head;
@@ -72,6 +74,9 @@ void merge(void *data)
             tmp_list = _list;
             pthread_mutex_unlock(&(data_context.mutex));
         } else {
+            //If there is a local list left by other thread,
+            //pick it and create a task to merge the picked list
+            //and its own local list.
             tmp_list = NULL;
             pthread_mutex_unlock(&(data_context.mutex));
             task_t *_task = (task_t *) malloc(sizeof(task_t));
@@ -80,6 +85,7 @@ void merge(void *data)
             tqueue_push(pool->queue, _task);
         }
     } else {
+        //All local list are merged, push a termination task to the task queue.
         the_list = _list;
         task_t *_task = (task_t *) malloc(sizeof(task_t));
         _task->func = NULL;
