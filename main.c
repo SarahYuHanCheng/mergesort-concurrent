@@ -130,6 +130,7 @@ int main(int argc, char const *argv[])
     tpool_init(pool, thread_count, task_run);
     struct timeval start, end;
     uint32_t consumed_tasks;
+    double duration;
     // Start when the first task launches.
     gettimeofday(&start, NULL);
     /* launch the first task */
@@ -143,7 +144,9 @@ int main(int argc, char const *argv[])
 
     gettimeofday(&end, NULL);
     /* Report */
+    duration = (end.tv_sec - start.tv_sec)*1000 + (double)(end.tv_usec - start.tv_usec)/1000.0f;
     printf("#Total_tasks_consumed: %d\n", consumed_tasks);
-    printf("#Elapsed_time: %.3lf ms\n", (end.tv_sec - start.tv_sec) * 1000 + (double)(end.tv_usec - start.tv_usec) / 1000.0f);
+    printf("#Elapsed_time: %.3lf ms\n",duration);
+    printf("#Throughput: %d (per sec)\n", (uint32_t)(consumed_tasks * 1000 / duration));
     return 0;
 }
