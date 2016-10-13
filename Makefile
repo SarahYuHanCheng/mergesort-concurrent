@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -std=gnu99 -Wall -g -pthread
-OBJS = list.o threadpool.o main.o
+OBJS = list.o threadpool.o main.o -g
 
 .PHONY: all clean test
 
@@ -17,7 +17,7 @@ deps := $(OBJS:%.o=.%.o.d)
 	$(CC) $(CFLAGS) -o $@ -MMD -MF .$@.d -c $<
 
 sort: $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) -rdynamic
+	$(CC) $(CFLAGS) -o $@ $(OBJS) -rdynamic -g
 
 clean:
 	rm -f $(OBJS) sort
